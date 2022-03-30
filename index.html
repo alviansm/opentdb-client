@@ -12,6 +12,7 @@
     <title>Opentdb Quiz Client</title>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">opentdb-client</a>
@@ -27,13 +28,14 @@
                 <a class="nav-link" href="/about.html">About</a>
               </li>
             </ul>
-            <span class="navbar-text">
-              <a href="https://github.com/alviansm">alviansm</a>
+            <span class="navbar-text d-flex flex-row">                            
+              <a href="https://github.com/alviansm" target="_blank">alviansm</a>
             </span>
           </div>
         </div>
     </nav>
 
+    <!-- Pre quiz: quiz options -->
     <div id="forms" class="container mt-3 d-none">
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Email address</label>
@@ -44,37 +46,68 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
         <button class="btn btn-primary">Go!</button>
-    </div>
-    
-    <div id="question" class="container mt-3 d-flex justify-content-center">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div id="question-indicator" class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div id="question-inner" class="carousel-inner">
-              <div class="carousel-item active">
-                <h1>First item</h1>
-              </div>
-              <div class="carousel-item">
-                <h1>Second item</h1>
-              </div>
-              <div class="carousel-item">
-                <h1>Third item</h1>
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+    </div> 
+
+    <!-- Question and answers -->
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-2">
+      <div id="container-question" class="d-flex justify-content-center flex-column">
+        <!-- Question -->
+        <div id="question">
+          <p class="lead">Lorem ipsum dolor sit amet.</p>
         </div>
+        <!-- Answer: Multiple choices -->
+        <div id="choice" class="btn-group d-grid gap-3">          
+          <div id="choice-a">
+            <input type="radio" class="btn-check" name="choice-input" id="choice-a-answer" autocomplete="off" checked>
+            <label for="choice-a-answer" class="btn btn-primary">A</label>
+          </div>
+          <div id="choice-b">
+            <input type="radio" class="btn-check" name="choice-input" id="choice-b-answer" autocomplete="off">
+            <label for="choice-b-answer" class="btn btn-primary">B</label>
+          </div>
+          <div id="choice-c">
+            <input type="radio" class="btn-check" name="choice-input" id="choice-c-answer" autocomplete="off">
+            <label for="choice-c-answer" class="btn btn-primary">C</label>
+          </div>
+          <div id="choice-d">
+            <input type="radio" class="btn-check" name="choice-input" id="choice-d-answer" autocomplete="off">
+            <label for="choice-d-answer" class="btn btn-primary">D</label>
+          </div>
+        </div> <!-- End of multiple choices answer -->        
+      </div>
+      <p>Your answer: <span class="badge bg-secondary">A</span></p>
+    </div> <!-- End of question and answer -->
+    
+    <!-- Pagination -->
+    <div id="pagination" class="pagination d-flex justify-content-center align-items-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
 
+    <!-- Timer -->
+    <div class="d-flex align-items-center justify-content-center">
+      <p id="timer" class="mx-3"><span class="badge bg-secondary">15:00</span></p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p><small>&copy;2022 by <a href="https://github.com/alvians" target="_blank">alviansm</a> | MIT License</small></p>
+    </div>
     <script src="./script/bootstrap.js"></script>
 </body>
 </html>
