@@ -1,7 +1,10 @@
 ## ToDo
 - [ ] Question fetch from XmlHttpRequest
 - [ ] Stats -> Score, name, share
- 
+
+## website links
+[https://alviansm.github.io/opentdb-client/](https://alviansm.github.io/opentdb-client/)
+
 ## quiz app client from opentdb
 > author: alvians maulana @alviansmaulana
 > github: [Github](https://github.com/alviansm)

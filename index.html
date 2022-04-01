@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="alvians maulana alviansmaulana">
+    <meta name="author" content="alvians maulana alviansmaulana alviansm @alviansm @alviansmaulana">
     <meta name="description" content="Quiz app client from opentdb">
 
     <link rel="shortcut icon" href="./favicon.png" type="image/png">
@@ -41,39 +41,54 @@
     <div id="forms" class="container mt-3">
         <div class="mb-3">
             <label for="username" class="form-label">Name:</label>
-            <input type="text" class="form-control" id="username" placeholder="John Doe">
+            <input type="text" class="form-control" id="username" value="John Doe" placeholder="John Doe">
         </div>
         <div id="status_load_quiz" class="mb-3">
           <div><span class="badge bg-warning">Question is not ready, click Load button to fetch</span></div>
         </div>      
         <button id="btn_load_questions" class="btn btn-primary">Load Question</button>
-        <button id="btn_start_questions" class="btn btn-danger">Start</button>
+        <!-- Button for modal -->
+        <button id="btn_start_questions" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Start</button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Start the Quiz?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div id="alert_no_questions" class="alert alert-danger" role="alert">
+                  You have to load the questions first!
+                </div>
+                <p>Your Name: <span id="span_username"></span></p>
+                <p>Timer: 5 minutes</p>
+                <p>Please pray before eat..</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="btn_start" type="button" class="btn btn-success">Start</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
     <!-- Question and answers -->
     <div class="container d-flex flex-column justify-content-center align-items-center mt-4">
       <div id="container_question" class="d-flex justify-content-center flex-column">
-        <p class="lead mb-0">Are you read?</p>
-        <p class="mt-0"><small><b>I'm not</small></b></p> 
+        <p class="lead mb-0">Are you ready?</p>
+        <p class="mt-0"><small><b>World won't wait</small></b></p> 
     </div> <!-- End of question and answer -->
     
     <!-- Pagination -->
     <div id="pagination" class="pagination d-flex justify-content-center align-items-center">
       <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <ul id="question_pagination" class="pagination">
+          <li id="question_1" class="page-item"><a class="page-link" style="cursor: pointer;">1</a></li>
           <li class="page-item"><a class="page-link" href="#">2</a></li>
           <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
         </ul>
       </nav>
     </div>
@@ -82,13 +97,18 @@
     <div class="d-flex align-items-center justify-content-center mb-5">
       <p id="timer" class="mx-3"><span class="badge bg-secondary">15:00</span></p>
     </div>
-
+  
     <!-- Footer -->
     <div class="footer">
       <p><small>&copy;2022 by <a href="https://github.com/alvians" target="_blank">alviansm</a> | MIT License</small></p>
     </div>
 
+    <!-- Firework -->
+    <!-- Source: https://codepen.io/syedakhtar/pen/VdoNdM -->
+    <div id="firework" class="" style="position: absolute; bottom: 0; left: 0; height: 100vh; width: 90vw; z-index: -100;"></div>
+
     <!-- Import Script -->
+    <script src="./script/firework.js"></script>
     <script src="./script/bootstrap.js"></script>
     <script src="./script/quiz.js"></script>
 </body>

@@ -1,17 +1,123 @@
-const qustionContainer = document.getElementById("container_question");
+// Author: Alvians Maulana (@alviansm -> https://github.com/alviansm)
+const questionContainer = document.getElementById("container_question");
 const forms = document.getElementById("forms");
 const statusLoadQuiz = document.getElementById("status_load_quiz");
+const spanUsername = document.getElementById("span_username");
+const alertQuestions = document.getElementById("alert_no_questions");
+const questionPagination = document.getElementById("question_pagination");
+
+// Fields
+const fieldUsername = document.getElementById("username");
 
 // Load the quiz event
 const btnLoadQuiz = document.getElementById("btn_load_questions");
 btnLoadQuiz.addEventListener("click", loadQuiz);
 
-// Start the quiz event
+// Start the pre quiz event (shows modal)
 const btnStartQuiz = document.getElementById("btn_start_questions");
+btnStartQuiz.addEventListener("click", loadUsername);
 
+// Start the quiz event
+const btnStart = document.getElementById("btn_start");
+btnStart.addEventListener("click", start);
+
+// Global variable declarations
+let username = 'John Doe';
 let questions = {};
+let score = 0;
+let maxScore = 0;
+let outputQuestion = [];
+let outputAnswer = [];
+let currentQuestion = 0;
+let currentQuestionHtml = ``;
+let tempArr = [];
+let outputPagination = ``;
+let myPagination = {};
 
-function loadQuiz() {
+// Share whatsapp API
+let whatsAppURL = `https://wa.me?text=${encodeURIComponent('I got ${score} out of ${maxScore} from opentdb quiz! check it at: https://google.com')}`;
+
+// @ts-nocheck
+// Functions for eventlistener
+
+// Start the question
+function start() {
+    if (Object.keys(questions).length > 0) {
+        // Close the modal
+        var myModalEl = document.getElementById('staticBackdrop');
+        var modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+
+        // Map the questions -> push to outputQuestion variable
+        questions.results.map((question) => {
+          outputQuestion.push(
+                `
+                <!-- Question -->
+                <div id="question">
+                  <p class="lead">${question.question}</p>
+                </div>
+                `
+            );
+        });
+        tempArr = outputQuestion.filter(q => outputQuestion.indexOf(q) == currentQuestion);
+        currentQuestionHtml = tempArr[0];
+        questionContainer.innerHTML = currentQuestionHtml;
+
+        // Map pagination
+        outputQuestion.map(q => {
+          outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
+        });
+        questionPagination.innerHTML = outputPagination; 
+        
+        // Dynamically create variable from available pagination (number of question)
+        let varNames = [];
+        for (let i=0; i<outputQuestion.length; i++) {
+          varNames.push("btnPagination_"+(i+1).toString());
+        };
+        
+        // WARNING!!! NOT BEST PRACTICES!
+        for (let i=0; i<varNames.length; i++) {
+          window[varNames[i]] = document.getElementById(`question_${i+1}`).addEventListener("click", switchQuestion);
+          // Taking advantange of JavaScript as prototype-oriented promgramming language
+          document.getElementById(`question_${i+1}`).myParam = i;
+        };
+
+        // Working navigation with pagination
+
+        
+    }
+    
+    else {
+        questionContainer.innerHTML = `<p class="lead">No question available :(</p>`;
+    }
+}
+
+// Swithch question from pagination (navigate through question)
+function switchQuestion(evt) {
+  currentQuestion = evt.currentTarget.myParam;
+  tempArr = outputQuestion.filter(q => outputQuestion.indexOf(q) == currentQuestion);
+  currentQuestionHtml = tempArr[0];
+  questionContainer.innerHTML = currentQuestionHtml;
+}
+
+// Pre questions modal
+function loadUsername() {
+    username = fieldUsername.value;
+    spanUsername.innerHTML = fieldUsername.value;
+
+    if (Object.keys(questions).length == 0) {
+        alertQuestions.classList.remove("d-none");
+        btnStart.classList.add("d-none");
+    }
+
+    if (Object.keys(questions).length > 0) {
+        alertQuestions.classList.add("d-none");
+        btnStart.classList.remove("d-none");
+    }
+}
+
+// Fetch questions
+async function loadQuiz() {
     // Add spinnders the moment button is clicked
     statusLoadQuiz.innerHTML = `<div class="spinner-border" role="status">
                                     <span class="visually-hidden">Loading...</span>
@@ -23,17 +129,12 @@ function loadQuiz() {
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function() {
         // Store to variable when successfull
-        if (this.readyState == 4 && this.status ==200) {
+        if (this.readyState == 4 && this.status == 200) {
             statusLoadQuiz.innerHTML = `<div><span class="badge bg-success">Question Loaded!</span></div>`
 
             let temp_questions = this.responseText;
-            return questions = JSON.parse(temp_questions);            
-        }
-        
-        // Notice user to conect after 10 sec
-        setTimeout(function() {
-            statusLoadQuiz.innerHTML = `<div><span class="badge bg-danger">Please connect to the internet to be able to fetch questions from opentdb</span></div>`;
-        }, 10000)
+            questions = JSON.parse(temp_questions);            
+        }        
     }
     xhr.send();
 };
