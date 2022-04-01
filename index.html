@@ -5,8 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="alvians maulana alviansmaulana">
+    <meta name="description" content="Quiz app client from opentdb">
 
-    <link rel="stylesheet" href="./style/bootstrap.css">
+    <link rel="shortcut icon" href="./favicon.png" type="image/png">
+    <link rel="stylesheet" href="./style/bootstrap.min.css">
     <link rel="stylesheet" href="./style/custom.css">
 
     <title>Opentdb Quiz Client</title>
@@ -36,46 +38,23 @@
     </nav>
 
     <!-- Pre quiz: quiz options -->
-    <div id="forms" class="container mt-3 d-none">
+    <div id="forms" class="container mt-3">
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            <label for="username" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="username" placeholder="John Doe">
         </div>
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-        <button class="btn btn-primary">Go!</button>
-    </div> 
+        <div id="status_load_quiz" class="mb-3">
+          <div><span class="badge bg-warning">Question is not ready, click Load button to fetch</span></div>
+        </div>      
+        <button id="btn_load_questions" class="btn btn-primary">Load Question</button>
+        <button id="btn_start_questions" class="btn btn-danger">Start</button>
+    </div>
 
     <!-- Question and answers -->
-    <div class="container d-flex flex-column justify-content-center align-items-center mt-2">
-      <div id="container-question" class="d-flex justify-content-center flex-column">
-        <!-- Question -->
-        <div id="question">
-          <p class="lead">Lorem ipsum dolor sit amet.</p>
-        </div>
-        <!-- Answer: Multiple choices -->
-        <div id="choice" class="btn-group d-grid gap-3">          
-          <div id="choice-a">
-            <input type="radio" class="btn-check" name="choice-input" id="choice-a-answer" autocomplete="off" checked>
-            <label for="choice-a-answer" class="btn btn-primary">A</label>
-          </div>
-          <div id="choice-b">
-            <input type="radio" class="btn-check" name="choice-input" id="choice-b-answer" autocomplete="off">
-            <label for="choice-b-answer" class="btn btn-primary">B</label>
-          </div>
-          <div id="choice-c">
-            <input type="radio" class="btn-check" name="choice-input" id="choice-c-answer" autocomplete="off">
-            <label for="choice-c-answer" class="btn btn-primary">C</label>
-          </div>
-          <div id="choice-d">
-            <input type="radio" class="btn-check" name="choice-input" id="choice-d-answer" autocomplete="off">
-            <label for="choice-d-answer" class="btn btn-primary">D</label>
-          </div>
-        </div> <!-- End of multiple choices answer -->        
-      </div>
-      <p>Your answer: <span class="badge bg-secondary">A</span></p>
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-4">
+      <div id="container_question" class="d-flex justify-content-center flex-column">
+        <p class="lead mb-0">Are you read?</p>
+        <p class="mt-0"><small><b>I'm not</small></b></p> 
     </div> <!-- End of question and answer -->
     
     <!-- Pagination -->
@@ -100,7 +79,7 @@
     </div>
 
     <!-- Timer -->
-    <div class="d-flex align-items-center justify-content-center">
+    <div class="d-flex align-items-center justify-content-center mb-5">
       <p id="timer" class="mx-3"><span class="badge bg-secondary">15:00</span></p>
     </div>
 
@@ -108,6 +87,9 @@
     <div class="footer">
       <p><small>&copy;2022 by <a href="https://github.com/alvians" target="_blank">alviansm</a> | MIT License</small></p>
     </div>
+
+    <!-- Import Script -->
     <script src="./script/bootstrap.js"></script>
+    <script src="./script/quiz.js"></script>
 </body>
 </html>
