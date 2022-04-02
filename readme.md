@@ -1,9 +1,14 @@
+# Work in progress... 🤗
+
 ## ToDo
-- [ ] Question fetch from XmlHttpRequest
+- [X] Question fetch from XmlHttpRequest
+- [X] Shuffle answer
+- [ ] +1 Score to correct answer button (2-04-2022)
+- [ ] Dynamic styling component?
 - [ ] Stats -> Score, name, share
 
-## website links
-[https://alviansm.github.io/opentdb-client/](https://alviansm.github.io/opentdb-client/)
+## Demo Link 👋
+[Here! 🌊 https://alviansm.github.io/opentdb-client/](https://alviansm.github.io/opentdb-client/)
 
 ## quiz app client from opentdb
 > author: alvians maulana @alviansmaulana
