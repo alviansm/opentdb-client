@@ -1,3 +1,4 @@
+<!-- Author: alvians maulana (https://github.com/alviansm) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="alvians maulana alviansmaulana alviansm @alviansm @alviansmaulana">
-    <meta name="description" content="Quiz app client from opentdb">
+    <meta name="description" content="Quiz app client from opentdb (built with vanilla javascript">
+    <meta name="keyword" content="html css javasript quiz-app quiz app vanilla vanilla-js">
 
     <link rel="shortcut icon" href="./favicon.png" type="image/png">
     <link rel="stylesheet" href="./style/bootstrap.min.css">
@@ -46,9 +48,9 @@
         <div id="status_load_quiz" class="mb-3">
           <div><span class="badge bg-warning">Question is not ready, click Load button to fetch</span></div>
         </div>      
-        <button id="btn_load_questions" class="btn btn-primary">Load Question</button>
+        <button id="btn_load_questions" class="btn btn-primary btn-sm">⌛ Load Question</button>
         <!-- Button for modal -->
-        <button id="btn_start_questions" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Start</button>
+        <button id="btn_start_questions" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">▶️ Start</button>
         
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -62,9 +64,9 @@
                 <div id="alert_no_questions" class="alert alert-danger" role="alert">
                   You have to load the questions first!
                 </div>
-                <p>Your Name: <span id="span_username"></span></p>
-                <p>Timer: 5 minutes</p>
-                <p>Please pray before eat..</p>
+                <p>Your Name: <b><u><span id="span_username"></span></u></b></p>
+                <p>Time: <span class="badge bg-secondary">10 seconds/question</span></p>
+                <p class="text-center"><i>🙏 pray before eat.. 🙏</i></p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -78,12 +80,18 @@
     <!-- Question and answers -->
     <div class="container d-flex flex-column justify-content-center align-items-center mt-4">
       <div id="container_question" class="d-flex justify-content-center flex-column">
-        <p class="lead mb-0">Are you ready?</p>
-        <p class="mt-0"><small><b>World won't wait</small></b></p>
-        <div id="question_options">
+          <p class="lead mb-0">Are you ready? 🤔</p>
+          <p class="mt-0 mb-0">
+            <blockquote>
+              Let not your heart walk away from you, lest your mind grow legs and follow it.
+              <br>-Patrick
+            </blockquote>            
+          </p>
+          <div id="question_options">
 
-        </div> 
-    </div> <!-- End of question and answer -->
+          </div>           
+        </div> <!-- End of question and answer -->
+    </div>
     
     <!-- Pagination -->
     <div id="pagination" class="pagination d-flex justify-content-center align-items-center">
@@ -97,8 +105,69 @@
     </div>
 
     <!-- Timer -->
-    <div class="d-flex align-items-center justify-content-center mb-5">
-      <p id="timer" class="mx-3"><span class="badge bg-secondary">15:00</span></p>
+    <div class="d-flex align-items-center justify-content-center">
+      <p class="mx-1"><span id="timer" class="badge bg-secondary">15:00</span></p>
+      <pclass="mx-1"><span id="current_question" class="badge bg-secondary">0</span></p>
+    </div>
+
+    <!-- Submit Button -->
+    <div id="button_user_submit" class="d-flex justify-content-center align-items-center mb-5">
+      
+      <!-- Button trigger modal -->
+      <button id="button_user_submit" type="button" class="btn btn-primary btn-sm mt-0" data-bs-toggle="modal" data-bs-target="#user_confirm">
+        ✔️ <b>Submit</b>
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="user_confirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="userScoreLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="user_confirm_label">Are you sure?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Your answer will be assigned and can't be undone
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">❌ Close</button>  
+              
+              <!-- Button trigger modal -->
+              <button id="button_user_submit_agree" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_user_highlight">
+                ✔️ Agree
+              </button>
+
+              <!-- Modal (inside modal for highlithing if user agree)-->
+              <div class="modal fade" id="modal_user_highlight" tabindex="-1" aria-labelledby="modal_user_highlight" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modal_user_highlight">🎉 Highlight</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div id="warning_no_answer">
+                        <div class="col-12">
+                          <img src="./images/meme1.jpg" alt="Seriously" class="img-fluid">
+                        </div>
+                      </div>
+                      <div id="user_highlight" class="row">
+                        
+                      </div>
+                    </div>
+                    <div class="modal-footer">                      
+                      <button type="button" class="btn btn-success">💬 Share WA</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">❌ Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- End of model inside modal (score highlight goes hrer)-->
+
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   
     <!-- Footer -->
@@ -106,13 +175,10 @@
       <p><small>&copy;2022 by <a href="https://github.com/alvians" target="_blank">alviansm</a> | MIT License</small></p>
     </div>
 
-    <!-- Firework -->
-    <!-- Source: https://codepen.io/syedakhtar/pen/VdoNdM -->
-    <div id="firework" class="" style="position: absolute; bottom: 0; left: 0; height: 100vh; width: 90vw; z-index: -100;"></div>
-
-    <!-- Import Script -->
-    <script src="./script/firework.js"></script>
+    <!-- Import Script -->    
     <script src="./script/bootstrap.js"></script>
     <script src="./script/quiz.js"></script>
+    <script src="./script/score.js"></script>
+    <script src="./script/countdown.js"></script>
 </body>
 </html>

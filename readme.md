@@ -1,11 +1,23 @@
 # Work in progress... 🤗
+Any feedback or suggestions are welcome! Contact me at [Github](https://github.com/alviansm) or [Instagram](https://instagram.com/alviansmaulana)
+
+# Web-app information
+> version: 0.1.0 (beta)
+> name: opentdb-client
+> technology: basic html, css, javascript, bootstrap-v5
 
 ## ToDo
 - [X] Question fetch from XmlHttpRequest
 - [X] Shuffle answer
-- [ ] +1 Score to correct answer button (2-04-2022)
-- [ ] Dynamic styling component?
-- [ ] Stats -> Score, name, share
+- [X] +1 Score to correct answer button (2-04-2022)
+- [X] Timer
+- [-] Dynamic styling component?
+- [X] Stats -> Score, name, share
+- [X] Question options
+- [ ] Production ready (3-04-2022)
+- [ ] Redisplay button when load
+- [ ] Reset when closing highlight
+- [ ] Confetti when agree
 
 ## Demo Link 👋
 [Here! 🌊 https://alviansm.github.io/opentdb-client/](https://alviansm.github.io/opentdb-client/)

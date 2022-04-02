@@ -5,6 +5,7 @@ const statusLoadQuiz = document.getElementById("status_load_quiz");
 const spanUsername = document.getElementById("span_username");
 const alertQuestions = document.getElementById("alert_no_questions");
 const questionPagination = document.getElementById("question_pagination");
+const badgeCurrentQuestion = document.getElementById("current_question");
 
 // Fields
 const fieldUsername = document.getElementById("username");
@@ -37,15 +38,10 @@ let singleAnswer = [];
 let correctAnswers = [];
 let answerHtml = [];
 let activeAnswerHtml = ``;
+let timer = 0;
+
+// User answer
 let userAnswer = [];
-
-// Add user answer
-const btnAnswerA = document.getElementById("choice-a-answer");
-const btnAnswerB = document.getElementById("choice-b-answer");
-const btnAnswerC = document.getElementById("choice-c-answer");
-const btnAnswerD = document.getElementById("choice-d-answer");
-
-
 
 // Share whatsapp API
 let whatsAppURL = `https://wa.me?text=${encodeURIComponent('I got ${score} out of ${maxScore} from opentdb quiz! check it at: https://google.com')}`;
@@ -61,6 +57,30 @@ function start() {
         var modal = bootstrap.Modal.getInstance(myModalEl);
         modal.hide();
 
+        // Reset the stats    
+        btnStartQuiz.classList.add("d-none");  
+        score = 0;  
+        outputQuestion = [];
+        currentQuestion = 0;
+        currentQuestionHtml = ``;
+        tempArr = [];
+        outputPagination = ``;
+        myPagination = {};
+        outputAnswer = [];
+        singleAnswer = [];
+        correctAnswers = [];
+        answerHtml = [];
+        activeAnswerHtml = ``;
+
+        // Set initial user answer
+        for (let i=0; i<questions.results.length; i++) {
+          userAnswer.push("")
+        }
+
+        // Set timer (countdown)
+        // set timer based on questions length
+        timer = questions.results.length*10;
+
         // Map the questions -> push to outputQuestion variable
         questions.results.map((question) => {
           outputQuestion.push(
@@ -72,15 +92,104 @@ function start() {
                 <div id="question_options">
                 
                 </div>
+                <div id="user_answer" class="mb-3">
+                  <span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>
+                </div>
                 `
             );
         });
 
         // Map pagination
+        outputPagination += `<li class="page-item" id="previous_question">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>`;
         outputQuestion.map(q => {
           outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
         });
+        outputPagination += `<li class="page-item" id="next_question">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>`;
         questionPagination.innerHTML = outputPagination; 
+        
+        // Next and previous pagination
+        document.getElementById("previous_question").addEventListener("click", ()=> {
+          if (currentQuestion > 0) {
+            currentQuestion = currentQuestion - 1
+            // Switch questions
+            tempArr = outputQuestion.filter(q => outputQuestion.indexOf(q) == currentQuestion);
+            currentQuestionHtml = tempArr[0];
+            questionContainer.innerHTML = currentQuestionHtml;
+            document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;  
+            badgeCurrentQuestion.innerHTML = `${currentQuestion+1}`;
+
+            // Switch answers
+            tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
+            activeAnswerHtml = tempArr[0];
+            document.getElementById("question_options").innerHTML = activeAnswerHtml;
+          
+            // Save user answer
+            document.getElementById("choice-a-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][0])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+            document.getElementById("choice-b-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][1])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+            document.getElementById("choice-c-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][2])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+            document.getElementById("choice-d-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][3])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+          }
+          else {
+            currentQuestion = 0;
+          }
+        });
+        document.getElementById("next_question").addEventListener("click", ()=> {
+          if (currentQuestion < questions.results.length-1) {
+            currentQuestion = currentQuestion + 1
+            // Switch questions
+            tempArr = outputQuestion.filter(q => outputQuestion.indexOf(q) == currentQuestion);
+            currentQuestionHtml = tempArr[0];
+            questionContainer.innerHTML = currentQuestionHtml;
+            document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            badgeCurrentQuestion.innerHTML = `${currentQuestion+1}`;
+
+            // Switch answers
+            tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
+            activeAnswerHtml = tempArr[0];
+            document.getElementById("question_options").innerHTML = activeAnswerHtml;
+
+            // Save user answer
+            document.getElementById("choice-a-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][0])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+            document.getElementById("choice-b-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][1])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+            document.getElementById("choice-c-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][2])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+            document.getElementById("choice-d-answer").addEventListener("click", () => {
+              userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][3])
+              document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+            });
+          }
+          else {            
+            currentQuestion = currentQuestion;
+          }
+        });
         
         // Dynamically create variable from available pagination (number of question)
         let varNames = [];
@@ -129,7 +238,7 @@ function start() {
                 <input type="radio" class="btn-check" name="choice-input" id="choice-d-answer" autocomplete="off">
                 <label for="choice-d-answer" class="btn btn-primary">${a[3]}</label>
               </div>
-            </div> <!-- End of multiple choices answer -->  
+            </div> <!-- End of multiple choices answer -->            
             `
           );
         });
@@ -139,8 +248,26 @@ function start() {
         questionContainer.innerHTML = currentQuestionHtml;
         tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
         activeAnswerHtml = tempArr[0];
-        document.getElementById("question_options").innerHTML = activeAnswerHtml;
-    }
+        document.getElementById("question_options").innerHTML = activeAnswerHtml;                
+        
+        // Save user answer
+        document.getElementById("choice-a-answer").addEventListener("click", () => {
+          userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][0])
+          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][0]}</span>`;
+        });
+        document.getElementById("choice-b-answer").addEventListener("click", () => {
+          userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][1])
+          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][1]}</span>`;
+        });
+        document.getElementById("choice-c-answer").addEventListener("click", () => {
+          userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][2])
+          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][0]}</span>`;
+        });
+        document.getElementById("choice-d-answer").addEventListener("click", () => {
+          userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][3])
+          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][0]}</span>`;
+        });
+     }
     
     else {
         questionContainer.innerHTML = `<p class="lead">No question available :(</p>`;
@@ -160,7 +287,8 @@ function shuffle(array) {
 
     // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+      array[randomIndex], array[currentIndex]
+    ];
   }
 
   return array;
@@ -179,6 +307,29 @@ function switchQuestion(evt) {
   tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
   activeAnswerHtml = tempArr[0];
   document.getElementById("question_options").innerHTML = activeAnswerHtml;
+
+  // Show user answer
+  document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+  badgeCurrentQuestion.innerHTML = `${currentQuestion+1}`;
+
+  // User answer options
+  // Save user answer
+  document.getElementById("choice-a-answer").addEventListener("click", () => {
+    userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][0])
+    document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+  });
+  document.getElementById("choice-b-answer").addEventListener("click", () => {
+    userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][1])
+    document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+  });
+  document.getElementById("choice-c-answer").addEventListener("click", () => {
+    userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][2])
+    document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+  });
+  document.getElementById("choice-d-answer").addEventListener("click", () => {
+    userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][3])
+    document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
+  });
 }
 
 // Pre questions modal
@@ -214,9 +365,10 @@ async function loadQuiz() {
             statusLoadQuiz.innerHTML = `<div><span class="badge bg-success">Question Loaded!</span></div>`
 
             let temp_questions = this.responseText;
-            questions = JSON.parse(temp_questions);            
+            questions = JSON.parse(temp_questions);                        
         }        
-    }
+    }  
+    
     xhr.send();
 };
 
