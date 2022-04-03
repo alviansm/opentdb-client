@@ -3,6 +3,9 @@ const questionContainer = document.getElementById("container_question");
 const forms = document.getElementById("forms");
 const statusLoadQuiz = document.getElementById("status_load_quiz");
 const spanUsername = document.getElementById("span_username");
+const spanAmount = document.getElementById("span_amount");
+const spanDifficulty = document.getElementById("span_difficulty");
+const spanCategory = document.getElementById("span_category");
 const alertQuestions = document.getElementById("alert_no_questions");
 const questionPagination = document.getElementById("question_pagination");
 const badgeCurrentQuestion = document.getElementById("current_question");
@@ -21,6 +24,9 @@ btnStartQuiz.addEventListener("click", loadUsername);
 // Start the quiz event
 const btnStart = document.getElementById("btn_start");
 btnStart.addEventListener("click", start);
+
+// Reload button
+document.getElementById("button_reload").addEventListener("click", () => window.location.reload());
 
 // Global variable declarations
 let username = 'John Doe';
@@ -43,6 +49,11 @@ let timerInterval;
 
 // User answer
 let userAnswer = [];
+
+// Before reload (confirm)
+window.onbeforeunload = function() {
+  return "Are you sure?"
+}
 
 // @ts-nocheck
 // Functions for eventlistener
@@ -80,6 +91,9 @@ function start() {
         timer = questions.results.length*10;
         timerInterval = setInterval(updateCountdown, 1000);
 
+        // Hide load button when quiz start
+        btnLoadQuiz.classList.add("d-none");
+
         // Map the questions -> push to outputQuestion variable
         questions.results.map((question) => {
           outputQuestion.push(
@@ -99,20 +113,25 @@ function start() {
         });
 
         // Map pagination
-        outputPagination += `<li class="page-item col" id="previous_question">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>`;
+        // outputPagination += `<li class="page-item col" id="previous_question">
+        //   <a class="page-link" href="#" aria-label="Previous">
+        //     <span aria-hidden="true">&laquo;</span>
+        //   </a>
+        // </li>`;
         outputQuestion.map(q => {
           outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item col"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
         });
-        outputPagination += `<li class="page-item" id="next_question" class="col">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>`;
+        // outputPagination += `<li class="page-item" id="next_question" class="col">
+        //   <a class="page-link" href="#" aria-label="Next">
+        //     <span aria-hidden="true">&raquo;</span>
+        //   </a>
+        // </li>`;
         questionPagination.innerHTML = outputPagination; 
+
+        // Hide overflowing navigation
+        for (let i=0; i<questions.results.length; i++) {
+          
+        }
         
         // Next and previous pagination
         document.getElementById("previous_question").addEventListener("click", ()=> {
@@ -152,6 +171,7 @@ function start() {
             currentQuestion = 0;
           }
         });
+
         document.getElementById("next_question").addEventListener("click", ()=> {
           if (currentQuestion < questions.results.length-1) {
             currentQuestion = currentQuestion + 1
@@ -214,8 +234,7 @@ function start() {
           shuffle(singleAnswer);          
           outputAnswer.push(singleAnswer);
         }        
-        // console.log(correctAnswers); // OK!
-        // console.log(outputAnswer); // OK!
+
         outputAnswer.map(a => {
           answerHtml.push(
             `
@@ -297,6 +316,11 @@ function shuffle(array) {
 function switchQuestion(evt) {
   currentQuestion = evt.currentTarget.myParam;
   
+  // Close the question number modal
+  var myModalPaginationEl = document.getElementById('modal_pagination');
+  var modalPagination = bootstrap.Modal.getInstance(myModalPaginationEl);
+  modalPagination.hide();
+
   // Switch questions
   tempArr = outputQuestion.filter(q => outputQuestion.indexOf(q) == currentQuestion);
   currentQuestionHtml = tempArr[0];
@@ -332,9 +356,16 @@ function switchQuestion(evt) {
 }
 
 // Pre questions modal
-function loadUsername() {
+function loadUsername() {    
+    // Category setting
+    let availableCategory = ["General Knowledge", "Books", "Film", "Music", "Musical & Theatre", "Television", "Video Games", "Board Games", "Science & Nature", "Computers", "Math", "Mythology", "Sports", "Geography", "History", "Politics", "Art", "Celebrities", "Animals", "Vehicle", "Comics", "Gadgets", "Anime & Manga", "Cartoon & Animations"]
+    let category = availableCategory[selectCategory.value-9];
+
     username = fieldUsername.value;
     spanUsername.innerHTML = fieldUsername.value;
+    spanAmount.innerHTML = selectAmount.value;
+    spanCategory.innerHTML =  category;
+    spanDifficulty.innerHTML = selectDifficulty.value;
 
     if (Object.keys(questions).length == 0) {
         alertQuestions.classList.remove("d-none");
@@ -355,7 +386,7 @@ async function loadQuiz() {
                                 </div>`;
     
     let url = `https://opentdb.com/api.php?amount=${selectAmount.value}&category=${selectCategory.value}&difficulty=${selectDifficulty.value}&type=multiple`;
-    
+
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function() {
