@@ -9,13 +9,19 @@ const btnSubmitScore = document.getElementById("button_user_submit");
 const btnSubmitScoreAgree = document.getElementById("button_user_submit_agree");
 const warningEmptyEl = document.getElementById("warning_no_answer");
 const warningHighlight = document.getElementById("user_highlight");
+const btnShareWA = document.getElementById("button_share_wa");
+const btnCloseHigh = document.getElementById("button_close_highlights");
 
 // Add event listener
 btnSubmitScoreAgree.addEventListener("click", highlight);
+btnCloseHigh.addEventListener("click", closeHigh);
 
 // Declare global variable
 let hightlightHtml = ``;
 let compliment = ``;
+
+// Share whatsapp API
+let whatsAppURL = `https://wa.me?text=${encodeURIComponent('I got ${score} out of ${maxScore} from opentdb quiz! check it at: https://google.com')}`;
 
 // Functions
 function highlight() {
@@ -58,4 +64,9 @@ function highlight() {
     warningEmptyEl.innerHTML = `<p>🥳 Congratulations!</p>`;
     warningHighlight.innerHTML = highlight;
   }
+}
+
+function closeHigh() {
+    // Reset (Refresh page)
+    window.location.reload();
 }

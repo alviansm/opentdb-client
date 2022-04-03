@@ -39,12 +39,10 @@ let correctAnswers = [];
 let answerHtml = [];
 let activeAnswerHtml = ``;
 let timer = 0;
+let timerInterval;
 
 // User answer
 let userAnswer = [];
-
-// Share whatsapp API
-let whatsAppURL = `https://wa.me?text=${encodeURIComponent('I got ${score} out of ${maxScore} from opentdb quiz! check it at: https://google.com')}`;
 
 // @ts-nocheck
 // Functions for eventlistener
@@ -80,6 +78,7 @@ function start() {
         // Set timer (countdown)
         // set timer based on questions length
         timer = questions.results.length*10;
+        timerInterval = setInterval(updateCountdown, 1000);
 
         // Map the questions -> push to outputQuestion variable
         questions.results.map((question) => {
@@ -100,15 +99,15 @@ function start() {
         });
 
         // Map pagination
-        outputPagination += `<li class="page-item" id="previous_question">
+        outputPagination += `<li class="page-item col" id="previous_question">
         <a class="page-link" href="#" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>`;
         outputQuestion.map(q => {
-          outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
+          outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item col"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
         });
-        outputPagination += `<li class="page-item" id="next_question">
+        outputPagination += `<li class="page-item" id="next_question" class="col">
         <a class="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
         </a>
@@ -355,17 +354,19 @@ async function loadQuiz() {
                                     <span class="visually-hidden">Loading...</span>
                                 </div>`;
     
-    let url = `https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple`;
+    let url = `https://opentdb.com/api.php?amount=${selectAmount.value}&category=${selectCategory.value}&difficulty=${selectDifficulty.value}&type=multiple`;
     
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onreadystatechange = function() {
         // Store to variable when successfull
         if (this.readyState == 4 && this.status == 200) {
-            statusLoadQuiz.innerHTML = `<div><span class="badge bg-success">Question Loaded!</span></div>`
+            statusLoadQuiz.innerHTML = `<div><span class="badge bg-success">Question Loaded!</span></div>`          
 
             let temp_questions = this.responseText;
             questions = JSON.parse(temp_questions);                        
+            
+            btnStartQuiz.classList.remove("d-none");  
         }        
     }  
     

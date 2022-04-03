@@ -41,13 +41,13 @@
 
     <!-- Pre quiz: quiz options -->
     <div id="forms" class="container mt-3">
-        <div class="mb-3">
-            <label for="username" class="form-label">Name:</label>
-            <input type="text" class="form-control" id="username" value="John Doe" placeholder="John Doe">
-        </div>
         <div id="status_load_quiz" class="mb-3">
           <div><span class="badge bg-warning">Question is not ready, click Load button to fetch</span></div>
-        </div>      
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#config_modal">
+          ⚙️ Config
+        </button>      
         <button id="btn_load_questions" class="btn btn-primary btn-sm">⌛ Load Question</button>
         <!-- Button for modal -->
         <button id="btn_start_questions" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">▶️ Start</button>
@@ -74,8 +74,80 @@
               </div>
             </div>
           </div>
-        </div>
-    </div>
+        </div><!-- End of modal 1 -->
+
+        <!-- Modal 2 -->
+        <div class="modal fade" id="config_modal" tabindex="-1" aria-labelledby="config_modalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="config_modalLabel">Configuration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <div class="mb-2">
+                    <label for="username" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="username" value="John Doe" placeholder="John Doe">
+                  </div>
+                  <div class="mb-1">
+                    <label for="amount">Amount: </label>
+                    <select id="amount" name="amount" class="form-select" aria-label="Default select example">
+                      <option value="5" selected>5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="20">20</option>
+                      <option value="25">25</option>
+                      <option value="30">30</option>
+                    </select>
+                  </div>
+                  <div class="mb-1">
+                    <label for="category">Category: </label>
+                    <select id="category" name="category" class="form-select" aria-label="Default select example">
+                      <option value="9" selected>General knowledge</option>
+                      <option value="10">Entertainment: Books</option>
+                      <option value="11">Entertainment: Film</option>
+                      <option value="12">Entertainment: Music</option>
+                      <option value="13">Entertainment: Musical & Theatre</option>
+                      <option value="14">Entertainment: Television</option>
+                      <option value="15">Entertainment: Video Games</option>
+                      <option value="16">Entertainment: Board Games</option>
+                      <option value="17">Science & Nature</option>
+                      <option value="18">Science: Computers</option>
+                      <option value="19">Science: Math</option>
+                      <option value="20">Mythology</option>
+                      <option value="21">Sports</option>
+                      <option value="22">Geography</option>
+                      <option value="23">History</option>
+                      <option value="24">Politics</option>
+                      <option value="25">Art</option>
+                      <option value="26">Celebrities</option>
+                      <option value="27">Animals</option>
+                      <option value="28">Vehicle</option>
+                      <option value="29">Entertainment: Comics</option>
+                      <option value="30">Science: Gadgets</option>
+                      <option value="31">Entertainment: Anime & Manga</option>
+                      <option value="32">Entertainment: Cartoon & Animation</option>
+                    </select>
+                  </div>
+                  <div class="mb-1">
+                    <label>Difficulty: </label>
+                    <select id="difficulty" name="difficulty" class="form-select" aria-label="Default select example">                      
+                      <option value="easy" selected>Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">👌 Ok</button>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End of modal 2 -->
+    
+      </div>
 
     <!-- Question and answers -->
     <div class="container d-flex flex-column justify-content-center align-items-center mt-4">
@@ -94,14 +166,16 @@
     </div>
     
     <!-- Pagination -->
-    <div id="pagination" class="pagination d-flex justify-content-center align-items-center">
-      <nav aria-label="Page navigation example">
-        <ul id="question_pagination" class="pagination">
-          <li id="question_1" class="page-item"><a class="page-link" style="cursor: pointer;">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-        </ul>
-      </nav>
+    <div class="container">
+      <div id="pagination" class="pagination d-flex justify-content-center align-items-center">
+        <nav aria-label="Page navigation example">
+          <ul id="question_pagination" class="pagination pagination-sm">
+            <li id="question_1" class="page-item"><a class="page-link" style="cursor: pointer;">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
 
     <!-- Timer -->
@@ -111,7 +185,7 @@
     </div>
 
     <!-- Submit Button -->
-    <div id="button_user_submit" class="d-flex justify-content-center align-items-center mb-5">
+    <div class="d-flex justify-content-center align-items-center mb-5">
       
       <!-- Button trigger modal -->
       <button id="button_user_submit" type="button" class="btn btn-primary btn-sm mt-0" data-bs-toggle="modal" data-bs-target="#user_confirm">
@@ -142,10 +216,11 @@
                 <div class="modal-dialog modal-fullscreen">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modal_user_highlight">🎉 Highlight</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <h5 class="modal-title" id="modal_user_highlight">🎉 Highlight</h5>                      
                     </div>
                     <div class="modal-body">
+                      <!-- Firework source: https://codepen.io/whqet/pen/abooRX -->
+                      <canvas id="canvas">Canvas is not supported in your browser.</canvas>
                       <div id="warning_no_answer">
                         <div class="col-12">
                           <img src="./images/meme1.jpg" alt="Seriously" class="img-fluid">
@@ -156,8 +231,8 @@
                       </div>
                     </div>
                     <div class="modal-footer">                      
-                      <button type="button" class="btn btn-success">💬 Share WA</button>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">❌ Close</button>
+                      <a id="button_share_wa" type="button" class="btn btn-success" target="_blank" href="https://wa.me?text=${encodeURIComponent('I got ${score} out of ${maxScore} from opentdb quiz! check it at: https://google.com')}">💬 Share WA</a>
+                      <button id="button_close_highlights" type="button" class="btn btn-secondary">❌ Close</button>
                     </div>
                   </div>
                 </div>
@@ -175,8 +250,10 @@
       <p><small>&copy;2022 by <a href="https://github.com/alvians" target="_blank">alviansm</a> | MIT License</small></p>
     </div>
 
-    <!-- Import Script -->    
+    <!-- Import Script -->        
+    <script src="./script/confetti.js"></script>
     <script src="./script/bootstrap.js"></script>
+    <script src="./script/config.js"></script>
     <script src="./script/quiz.js"></script>
     <script src="./script/score.js"></script>
     <script src="./script/countdown.js"></script>

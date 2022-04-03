@@ -15,9 +15,11 @@ Any feedback or suggestions are welcome! Contact me at [Github](https://github.c
 - [X] Stats -> Score, name, share
 - [X] Question options
 - [ ] Production ready (3-04-2022)
-- [ ] Redisplay button when load
-- [ ] Reset when closing highlight
-- [ ] Confetti when agree
+- [X] Redisplay button when load
+- [X] Reset when closing highlight
+- [X] Confetti when agree
+- [X] Auto reset when time's up
+- [X] Question API configuration
 
 ## Demo Link 👋
 [Here! 🌊 https://alviansm.github.io/opentdb-client/](https://alviansm.github.io/opentdb-client/)
