@@ -119,7 +119,7 @@ function start() {
         //   </a>
         // </li>`;
         outputQuestion.map(q => {
-          outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item col"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
+          outputPagination += `<li id="question_${outputQuestion.indexOf(q)+1}" class="page-item col-2 mx-0"><a class="page-link" style="cursor: pointer;">${outputQuestion.indexOf(q)+1}</a></li>`;
         });
         // outputPagination += `<li class="page-item" id="next_question" class="col">
         //   <a class="page-link" href="#" aria-label="Next">
