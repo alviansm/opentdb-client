@@ -142,7 +142,7 @@ function start() {
             currentQuestionHtml = tempArr[0];
             questionContainer.innerHTML = currentQuestionHtml;
             document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;  
-            badgeCurrentQuestion.innerHTML = `${currentQuestion+1}`;
+            badgeCurrentQuestion.innerHTML = `No. ${currentQuestion+1}`;
 
             // Switch answers
             tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
@@ -180,7 +180,7 @@ function start() {
             currentQuestionHtml = tempArr[0];
             questionContainer.innerHTML = currentQuestionHtml;
             document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
-            badgeCurrentQuestion.innerHTML = `${currentQuestion+1}`;
+            badgeCurrentQuestion.innerHTML = `No. ${currentQuestion+1}`;
 
             // Switch answers
             tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
@@ -231,7 +231,7 @@ function start() {
           for (let j=0; j<questions.results[i]["incorrect_answers"].length; j++) {
             singleAnswer.push(questions.results[i]["incorrect_answers"][j]);
           }
-          shuffle(singleAnswer);          
+          shuffle(singleAnswer); // Other function dependency          
           outputAnswer.push(singleAnswer);
         }        
 
@@ -267,7 +267,8 @@ function start() {
         tempArr = answerHtml.filter(r => answerHtml.indexOf(r) == currentQuestion);
         activeAnswerHtml = tempArr[0];
         document.getElementById("question_options").innerHTML = activeAnswerHtml;                
-        
+        badgeCurrentQuestion.innerHTML = `No. ${currentQuestion+1}`;
+
         // Save user answer
         document.getElementById("choice-a-answer").addEventListener("click", () => {
           userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][0])
@@ -279,11 +280,11 @@ function start() {
         });
         document.getElementById("choice-c-answer").addEventListener("click", () => {
           userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][2])
-          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][0]}</span>`;
+          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][2]}</span>`;
         });
         document.getElementById("choice-d-answer").addEventListener("click", () => {
           userAnswer.splice(currentQuestion, 1, outputAnswer[currentQuestion][3])
-          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][0]}</span>`;
+          document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${outputAnswer[currentQuestion][3]}</span>`;
         });
      }
     
@@ -333,7 +334,7 @@ function switchQuestion(evt) {
 
   // Show user answer
   document.getElementById("user_answer").innerHTML = `<span class="badge bg-success">Your answer: ${userAnswer[currentQuestion]}</span>`;
-  badgeCurrentQuestion.innerHTML = `${currentQuestion+1}`;
+  badgeCurrentQuestion.innerHTML = `No. ${currentQuestion+1}`;
 
   // User answer options
   // Save user answer
